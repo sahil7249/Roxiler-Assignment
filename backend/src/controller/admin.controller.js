@@ -56,7 +56,7 @@ export const getStores = asyncHandler(async(req,res) => {
         const totalRatings = store.ratings.length
         const avgRatings = 
         totalRatings > 0 
-            ? store.ratings.reduce((sum,r) => sum + r.value,0 )
+            ? store.ratings.reduce((sum,r) => sum + r.value,0 ) / totalRatings
             : 0
         
         return {
