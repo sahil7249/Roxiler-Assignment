@@ -5,6 +5,7 @@ import errorMiddleware from "./middleware/errorMiddleware.js";
 import morgan from 'morgan';
 import adminRouter from "./router/admin.router.js";
 import ratingRouter from "./router/rating.router.js";
+import ownerRouter from "./router/owner.router.js";
 
 dotenv.config()
 
@@ -17,6 +18,7 @@ app.use(morgan("tiny"))
 app.use('/api/auth',authRouter)
 app.use('/api/admin',adminRouter)
 app.use('/api/rating',ratingRouter)
+app.use('/api/owner',ownerRouter)
 
 app.use(errorMiddleware)
 
