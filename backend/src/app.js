@@ -1,8 +1,8 @@
 import express from "express";
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import authRouter from "./router/auth.router.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
-import morgan from 'morgan'
+import morgan from 'morgan';
 
 dotenv.config()
 
