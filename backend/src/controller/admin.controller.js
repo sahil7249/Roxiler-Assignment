@@ -70,3 +70,17 @@ export const getStores = asyncHandler(async(req,res) => {
         new ApiResponse(200,"Stores fetched successfully",storeWithRatings)
     )
 })
+
+export const getStats = asyncHandler(async(req,res) => {
+    const totalUsers = await prisma.user.count()
+    const totalStores = await prisma.store.count()
+    const totalRatings = await prisma.rating.count()
+
+    return res.json(
+        new ApiResponse(200,"Stats fetched successfully",{
+            totalUsers,
+            totalStores,
+            totalRatings
+        })
+    )
+})
