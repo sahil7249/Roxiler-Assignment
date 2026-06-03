@@ -10,7 +10,7 @@ export const login = asynHandler(async (req,res) => {
 
     const user = await prisma.user.findUnique({
         where : {
-            email
+            email : email
         }
     })
 
@@ -18,7 +18,7 @@ export const login = asynHandler(async (req,res) => {
         throw new ApiError(404,"Invalid user does not exists")
     }
     
-    if(!bcrypt.compare(password,user.password)) {
+    if(!await bcrypt.compare(password,user.password)) {
         throw new ApiError(500,"Invalid password")
     }
 
@@ -42,9 +42,6 @@ export const login = asynHandler(async (req,res) => {
         new ApiResponse(200,"User logged in successfully",data)
     )
 })
-
-
-
 
 
 export const register = asynHandler(async (req,res) => {
@@ -74,5 +71,31 @@ export const register = asynHandler(async (req,res) => {
 
     return res.json(
         new ApiResponse(200,"User registered successfully",user)
+    )
+})
+
+export const changePassword = asynHandler(async (req,res) => {
+    const { oldPassword,newPassword } = req?.body;
+
+    const user = await prisma.user.findUnique({
+        where : { id : req?.user.id }
+    });
+
+    if(!await bcrypt.compare(oldPassword,user.password)) {
+        throw new ApiError(401,"Incorrect password")
+    }
+
+    const hashedPassword = bcrypt.hashSync(newPassword,Number(process.env.SALT_ROUND))
+
+    const updatedUser = await prisma.user.update({
+        where : { id : user.id },
+        data : {
+            password : hashedPassword
+        },
+        omit :{ password : true }
+    })
+
+    return res.json(
+        new ApiResponse(200,"Password changed successfully",updatedUser)
     )
 })
