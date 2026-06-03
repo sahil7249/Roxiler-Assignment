@@ -18,3 +18,16 @@ export const authenticate = (req, res, next) => {
     next(new ApiError(401, "Invalid token"));
   }
 };
+
+export const authorize = (...roles) => {
+	return (req,res,next) => {
+		if(!req.user) {
+			throw new ApiError(401,"Unauthorized")
+		}
+
+		if(!roles.includes(req.user.role)) {
+			throw new ApiError(403,"Permission prohibited")
+		}
+		next()
+	}
+}
