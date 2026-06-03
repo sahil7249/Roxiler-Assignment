@@ -1,16 +1,20 @@
 import express from "express";
 import dotenv from 'dotenv'
+import authRouter from "./router/auth.router.js";
+import errorMiddleware from "./middleware/errorMiddleware.js";
+import morgan from 'morgan'
+
 dotenv.config()
 
 const app = express();
-
 const PORT = process.env.PORT || 8000
 
+app.use(express.json())
+app.use(morgan("tiny"))
 
-app.get('/',(req,res) => {
-    res.send("Start of assignment.")
-})
+app.use('/api/auth',authRouter)
 
+app.use(errorMiddleware)
 
 app.listen(PORT,() => {
     console.log(`App is running at : http://localhost:${PORT}/`)
