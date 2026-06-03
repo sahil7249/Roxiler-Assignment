@@ -1,8 +1,8 @@
-import asynHandler from "../utils/asyncHandler.js";
+import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/apiResponse.js";
 import prisma from "../config/prisma.config.js";
 
-export const createStore = asynHandler(async (req,res) => {
+export const createStore = asyncHandler(async (req,res) => {
     const { name,email,address,ownerId } = req?.body;
 
     const store = await prisma.store.create({
@@ -20,7 +20,7 @@ export const createStore = asynHandler(async (req,res) => {
 })
 
 
-export const getStores = asynHandler(async(req,res) => {
+export const getStores = asyncHandler(async(req,res) => {
     const { name,address,email } = req?.query
 
     let where = {}

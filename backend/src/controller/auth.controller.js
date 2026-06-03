@@ -1,11 +1,11 @@
-import asynHandler from "../utils/asyncHandler.js";
+import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/apiResponse.js";
 import ApiError from "../utils/apiError.js";
 import prisma from "../config/prisma.config.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 
-export const login = asynHandler(async (req,res) => {
+export const login = asyncHandler(async (req,res) => {
     const { email, password } = req?.body;
 
     const user = await prisma.user.findUnique({
@@ -44,7 +44,7 @@ export const login = asynHandler(async (req,res) => {
 })
 
 
-export const register = asynHandler(async (req,res) => {
+export const register = asyncHandler(async (req,res) => {
     const { name,email,address,password,role } = req?.body
 
     const isUserAlreadyExists = await prisma.user.findUnique({ where : { email }});
@@ -74,7 +74,7 @@ export const register = asynHandler(async (req,res) => {
     )
 })
 
-export const changePassword = asynHandler(async (req,res) => {
+export const changePassword = asyncHandler(async (req,res) => {
     const { oldPassword,newPassword } = req?.body;
 
     const user = await prisma.user.findUnique({
