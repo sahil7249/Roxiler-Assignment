@@ -40,6 +40,7 @@ export const Button = ({
   return (
     <button
       className={`${base} ${sizes[size]} ${variants[variant]} ${className}`}
+      {...props}
     >
       {children}
     </button>
@@ -68,4 +69,45 @@ export const Select = ({ label, error, id, options, className = '', ...props }) 
     </select>
     {error && <span className="text-xs text-red-500">{error}</span>}
   </div>
+);
+
+export const NavBar = ({ userName ,role ,onLogOut,links}) => {
+    return <nav className="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between sticky top-0 z-40">
+    <div className="flex items-center gap-6">
+      <span className="font-bold text-slate-900 tracking-tight">RateStore</span>
+      {links?.map(l => (
+        <button  key={l.label} onClick={l.onClick} className="text-sm text-slate-600 hover:text-slate-900 transition-colors">{l.label}</button>
+      ))}
+    </div>
+    <div className="flex items-center gap-4">
+      <div className="text-right hidden sm:block">
+        <p className="text-sm font-medium text-slate-900">{userName}</p>
+        <p className="text-xs text-slate-500 capitalize">{role}</p>
+      </div>
+      <Button variant="ghost" size="sm" onClick={onLogOut}>Logout</Button>
+    </div>
+  </nav>
+}
+
+export const PageWrapper = ({ title, children, action }) => (
+  <div className="min-h-screen bg-slate-50">
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{title}</h1>
+        {action}
+      </div>
+      {children}
+    </div>
+  </div>
+);
+
+export const Card = ({ children, className = '' }) => (
+  <div className={`bg-white border border-slate-200 rounded-lg shadow-sm ${className}`}>{children}</div>
+);
+
+export const StatCard = ({ label, value }) => (
+  <Card className="p-6">
+    <p className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-1">{label}</p>
+    <p className="text-3xl font-bold text-slate-900">{value}</p>
+  </Card>
 );

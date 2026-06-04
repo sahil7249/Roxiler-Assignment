@@ -43,6 +43,12 @@ export const api = {
             body: JSON.stringify({ currrentPassword,newPassword})
         })
   },
+  admin : {
+    getStats : () => 
+      request("/admin/stats",{
+        method : "GET"
+      })
+  }
 };
 
 
