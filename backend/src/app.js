@@ -6,13 +6,17 @@ import morgan from 'morgan';
 import adminRouter from "./router/admin.router.js";
 import ratingRouter from "./router/rating.router.js";
 import ownerRouter from "./router/owner.router.js";
-
+import cors from 'cors';
 dotenv.config()
 
 const app = express();
 const PORT = process.env.PORT || 8000
 
 app.use(express.json())
+app.use(cors({
+    origin : process.env.FRONTEND_URL,
+    methods : ['GET','POST','PUT','OPTIONS']
+}))
 app.use(morgan("tiny"))
 
 app.use('/api/auth',authRouter)

@@ -75,13 +75,13 @@ export const register = asyncHandler(async (req,res) => {
 })
 
 export const changePassword = asyncHandler(async (req,res) => {
-    const { oldPassword,newPassword } = req?.body;
+    const { currentPassword,newPassword } = req?.body;
 
     const user = await prisma.user.findUnique({
         where : { id : req?.user.id }
     });
 
-    if(!await bcrypt.compare(oldPassword,user.password)) {
+    if(!await bcrypt.compare(currentPassword,user.password)) {
         throw new ApiError(401,"Incorrect password")
     }
 
