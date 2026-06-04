@@ -84,3 +84,39 @@ export const getStats = asyncHandler(async(req,res) => {
         })
     )
 })
+
+export const getUsers = asyncHandler(async(req,res) => {
+    const { name,email,address,role } = req?.query;
+
+    let where = {};
+    if(name) { 
+        where.name = {
+            contains :  name 
+        }
+    }
+
+    if(address) {
+        where.address = {
+            contains : address
+        }
+    }
+
+    if(email) {
+        where.email = {
+            contains : email
+        }
+    }
+
+    if(role) {
+        where.role = role
+    }
+
+    const users = await prisma.user.findMany({ 
+        where,
+        omit : { password : true }
+    })
+
+    return res.json(
+        new ApiResponse(200,"Users fetched successfully",users)
+    )
+})
