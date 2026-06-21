@@ -12,7 +12,7 @@ export const findUserById = async (id) => {
   return user;
 };
 
-export const findUserByName = async (name) => {
+export const findUsersByName = async (name) => {
   const users = await prisma.user.findMany({
     where: {
       name: {
@@ -37,7 +37,7 @@ export const findUserByEmail = async (email) => {
 export const findUserByAddress = async (address) => {
   const users = await prisma.user.findMany({
     where: {
-      addresss: {
+      address: {
         contains: address,
       },
     },
@@ -45,6 +45,19 @@ export const findUserByAddress = async (address) => {
 
   return users;
 };
+
+export const findUsersByEmail = async(email) => {
+  const users = await prisma.user.findMany({
+    where : {
+      email : {
+        contains : {
+          email
+        }
+      }
+    }
+  })
+  return users;
+}
 
 export const findUserByRole = async (role) => {
   const users = await prisma.user.findMany({

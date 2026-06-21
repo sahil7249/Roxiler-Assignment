@@ -1,4 +1,4 @@
-import { create, findUserByEmail, findUserById, updatePassword } from "../repository/user.repository.js";
+import { create, findUserByAddress, findUserByEmail, findUserById, findUserByRole, findUsersByName, updatePassword } from "../repository/user.repository.js";
 import { ApiError } from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -70,4 +70,30 @@ export const updateUserPassword = async (id,userData) => {
     const updatedUser = await updatePassword(id,hashedPassword);
 
     return sanitizeUser(updatedUser)
+}
+
+export const getUsersByParams = async (userParams) => {
+  let users = [];
+  
+  if(userParams.name) {
+    users = await findUsersByName(userParams.name)
+  }
+ 
+  if(userParams.email) {
+    users = await findUserByEmail(userParams.email)
+  }
+
+  if(userParams.address) {
+    users = await findUserByAddress(userParams.address)
+  }
+
+  if(userParams.role){
+    users = await findUserByRole(userParams.role)
+  }
+
+  users = users.map((user) => {
+    return sanitizeUser(user)
+  })
+
+  return users
 }

@@ -1,6 +1,6 @@
 import  { asyncHandler }  from "../../utils/asyncHandler.js"
 import { ApiResponse } from "../../utils/ApiResponse.js";
-import { createUser,loginWithEmailAndPassword, updateUserPassword } from "../../service/user.service.js";
+import { createUser,getUsersByParams,loginWithEmailAndPassword, updateUserPassword } from "../../service/user.service.js";
 
 export const register = asyncHandler (async (req,res) => {
     const { name,email,address,password,role } = req?.body;
@@ -34,4 +34,19 @@ export const updatePassword = asyncHandler(async(req,res) => {
         new ApiResponse(200,"Password updated successfully",true,updatedUser)
     )
 
+})
+
+export const getUsers = asyncHandler(async(req,res) => {
+    const { name,email,address,role } = req?.query
+    const userParams = {
+        name,
+        email,
+        address,
+        role
+    }
+
+    const users = await getUsersByParams(userParams)
+    return res.json(
+        new ApiResponse(200,"Users fetched successfully",true,users)
+    )
 })
