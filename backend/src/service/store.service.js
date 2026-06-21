@@ -1,4 +1,4 @@
-import { create, getStoresByAddress, getStoresByEmail, getStoresByName } from '../repository/store.repository.js'
+import { create, getAllStores, getStoresByAddress, getStoresByEmail, getStoresByName } from '../repository/store.repository.js'
 import { findUserById } from '../repository/user.repository.js'
 import { ApiError } from '../utils/ApiError.js'
 
@@ -24,6 +24,13 @@ export const createStore = async (storeData) => {
 
 export const getStores = async(storeParams) => {
     let stores;
+
+    const isParamsUndefined = Object.values(storeParams).every(value => value === undefined)
+
+    if(isParamsUndefined) {
+        stores = await getAllStores()
+    }
+
     if(storeParams.name){
         stores = await getStoresByName(storeParams.name)
     }

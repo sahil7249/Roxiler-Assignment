@@ -80,3 +80,8 @@ export const updatePassword = async (id,newPassword) => {
 
   return updatedUser
 }
+
+export const getAllUsers = async () => {
+  const users = await prisma.user.findMany()
+  return users
+}

@@ -1,4 +1,4 @@
-import { create, findUserByAddress, findUserByEmail, findUserById, findUserByRole, findUsersByName, updatePassword } from "../repository/user.repository.js";
+import { create, findUserByAddress, findUserByEmail, findUserById, findUserByRole, findUsersByName, getAllUsers, updatePassword } from "../repository/user.repository.js";
 import { ApiError } from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -74,7 +74,13 @@ export const updateUserPassword = async (id,userData) => {
 
 export const getUsersByParams = async (userParams) => {
   let users = [];
-  
+
+  const isParamsUndefined = Object.values(userParams).every(value => value == undefined)
+
+  if(isParamsUndefined) {
+    users = await getAllUsers()
+  }
+
   if(userParams.name) {
     users = await findUsersByName(userParams.name)
   }

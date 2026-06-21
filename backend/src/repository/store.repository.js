@@ -57,3 +57,8 @@ export const getStoresByAddress = async (storeAddr) => {
   });
   return stores;
 };
+
+export const getAllStores = async() => {
+  const stores = await prisma.store.findMany()
+  return stores
+}
