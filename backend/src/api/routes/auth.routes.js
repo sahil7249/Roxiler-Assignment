@@ -4,9 +4,9 @@ import { createUserSchema, updateUserSchema } from '../validators/users.validato
 import { validateRequest } from '../middlewares/validate.js';
 import { authenticate } from '../middlewares/auth.middleware.js';
 
-const userRouter = Router();
-userRouter.post('/register', validateRequest(createUserSchema), register)
-userRouter.post('/login', login)
-userRouter.patch('/:id/update-password', authenticate,validateRequest(updateUserSchema),updatePassword)
+const authRouter = Router();
+authRouter.post('/register', validateRequest(createUserSchema), register)
+authRouter.post('/login', login)
+authRouter.patch('/:id/update-password', authenticate,validateRequest(updateUserSchema),updatePassword)
 
-export default userRouter;
+export default authRouter;
