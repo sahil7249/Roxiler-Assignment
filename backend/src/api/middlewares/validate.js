@@ -7,7 +7,7 @@ export const validateRequest = (schema) => (req, res, next) => {
   );
 
   if (error) {
-    const message = error.details.map((d) => d.message).join(", ");
+    const message = error.details.map((d) => d.message.replace("\\","")).join(", ");
     return next(new ApiError(400, message));
   }
   next();
